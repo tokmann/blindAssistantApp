@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class LlamaClient {
 
-    //private static final int TIMEOUT = 10000;  // Тайм-аут 5 секунд
+    //private static final int TIMEOUT = 10000;
     private static final String SERVER_URL = "http://127.0.0.1:8080/v1/chat/completions";
 
     public String sendPrompt(String prompt) {
@@ -26,22 +26,19 @@ public class LlamaClient {
             messages.put(userMessage);
             body.put("messages", messages);
 
-            // Установка соединения
             URL url = new URL(SERVER_URL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setDoOutput(true);
-            //connection.setConnectTimeout(TIMEOUT);  // Устанавливаем тайм-аут
-            //connection.setReadTimeout(TIMEOUT);     // Устанавливаем тайм-аут чтения
+            //connection.setConnectTimeout(TIMEOUT);
+            //connection.setReadTimeout(TIMEOUT);
 
-            // Отправка тела запроса
             try (OutputStream os = connection.getOutputStream()) {
                 byte[] input = body.toString().getBytes(StandardCharsets.UTF_8);
                 os.write(input, 0, input.length);
             }
 
-            // Чтение ответа
             try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
                 StringBuilder response = new StringBuilder();
                 String line;

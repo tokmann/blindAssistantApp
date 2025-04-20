@@ -35,35 +35,31 @@ public class UILayoutAnalyzer {
     }
 
     private JsonNode cleanUITree(JsonNode node) {
-        // Если это объект
         if (node.isObject()) {
             ObjectNode objectNode = objectMapper.createObjectNode();
 
-            // Копируем данные из исходного объекта в новый объект
             if (node.has("className")) objectNode.put("className", node.get("className").asText());
             if (node.has("text")) objectNode.put("text", node.get("text").asText());
             if (node.has("bounds")) objectNode.set("bounds", node.get("bounds"));
 
-            // Обрабатываем дочерние элементы
             if (node.has("children") && node.get("children").isArray()) {
                 ArrayNode childrenArray = objectMapper.createArrayNode();
                 for (JsonNode child : node.get("children")) {
-                    childrenArray.add(cleanUITree(child)); // Рекурсивно очищаем каждый дочерний элемент
+                    childrenArray.add(cleanUITree(child));
                 }
                 objectNode.set("children", childrenArray);
             }
 
             return objectNode;
         }
-        // Если это массив
+
         else if (node.isArray()) {
             ArrayNode arrayNode = objectMapper.createArrayNode();
             for (JsonNode arrayElement : node) {
-                arrayNode.add(cleanUITree(arrayElement)); // Рекурсивно очищаем каждый элемент массива
+                arrayNode.add(cleanUITree(arrayElement));
             }
             return arrayNode;
         }
-        // Если это другой тип (например, строка, число и т.д.), возвращаем сам элемент
         else {
             return node;
         }

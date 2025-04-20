@@ -25,7 +25,6 @@ public class GestureService {
 
         String prompt = analyzer.generatePrompt(request.getUiTreeJson(), gestureType, request.getLang());
 
-        // Отправляем в LLM
         return llamaClient.sendPrompt(prompt);
     }
 }

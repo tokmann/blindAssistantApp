@@ -1,7 +1,7 @@
 package ru.truehack.backend.assistant.model;
 
 public enum GestureType {
-    CIRCLE;
+    DOUBLE_TAP;
 
     public static GestureType fromString(String gesture) {
         try {
